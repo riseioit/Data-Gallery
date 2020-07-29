@@ -7,10 +7,9 @@ class DatabaseService {
   // collection reference
   final CollectionReference itemImages = Firestore.instance.collection('Items');
 
-  Future updateUserData(
-      String name, String description, double price, Image image) async {
+  Future updateUserData(String name, String description, double price) async {
     await itemImages
         .document(uid)
-        .setData({'sugars': sugars, 'name': name, 'strength': strength});
+        .setData({'name': name, 'description': description, 'price': price});
   }
 }
