@@ -24,7 +24,6 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.grey[400],
             appBar: AppBar(
               title: Text('Sign In'),
               elevation: 0.0,
@@ -39,17 +38,26 @@ class _SignInState extends State<SignIn> {
               ],
             ),
             body: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("lib/assets/img3.jpg"),
+                      fit: BoxFit.cover)),
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 50),
+                    Text(
+                      'SIGN IN',
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
                     SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     TextFormField(
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Email'),
+                      decoration: textInputDecoration.copyWith(
+                          hintText: 'Email', fillColor: Colors.white),
                       validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       onChanged: (mail) {
                         setState(() {
@@ -62,8 +70,8 @@ class _SignInState extends State<SignIn> {
                       height: 30,
                     ),
                     TextFormField(
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Password'),
+                      decoration: textInputDecoration.copyWith(
+                          hintText: 'Password', fillColor: Colors.white),
                       validator: (val) => val.length < 2
                           ? 'Enter the password 6+ chars long'
                           : null,

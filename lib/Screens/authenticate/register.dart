@@ -38,17 +38,26 @@ class _RegisterState extends State<Register> {
               ],
             ),
             body: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("lib/assets/img3.jpg"),
+                      fit: BoxFit.cover)),
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 50),
+                    Text(
+                      'REGISTER',
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
                     SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     TextFormField(
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Email'),
+                      decoration: textInputDecoration.copyWith(
+                          hintText: 'Email', fillColor: Colors.white),
                       validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       onChanged: (mail) {
                         setState(() {
@@ -61,8 +70,8 @@ class _RegisterState extends State<Register> {
                       height: 30,
                     ),
                     TextFormField(
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Password'),
+                      decoration: textInputDecoration.copyWith(
+                          hintText: 'Password', fillColor: Colors.white),
                       validator: (val) => val.length < 2
                           ? 'Enter the password 2+ chars long'
                           : null,
