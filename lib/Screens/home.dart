@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:practice_project/Home/items.dart';
+import 'package:practice_project/Home/item_tile.dart';
 import 'package:practice_project/Screens/addItem.dart';
+import 'package:practice_project/Screens/item_home.dart';
 import 'package:practice_project/Services/auth.dart';
 import 'package:practice_project/Services/database.dart';
 import 'package:practice_project/models/item.dart';
+import 'package:practice_project/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -13,11 +18,9 @@ class CustomDrawer extends StatefulWidget {
 
 class CustomDrawerState extends State<CustomDrawer>
     with SingleTickerProviderStateMixin {
-  final AuthService _auth = AuthService();
-  AnimationController _animationController;
-
-  final double maxSlide = 225.0;
-  var _canBeDragged;
+  List<Item> list = [];
+  //===========================================================================================
+  //===========================================================================================
 
   @override
   void initState() {
@@ -27,6 +30,38 @@ class CustomDrawerState extends State<CustomDrawer>
       duration: Duration(milliseconds: 250),
     );
   }
+
+  void getItemsFromDatabase(String id) async {
+    final DatabaseReference itemImages =
+        FirebaseDatabase.instance.reference().child(id);
+
+    await itemImages.once().then((DataSnapshot snapshot) {
+      List<Item> l = [];
+      var keys = snapshot.value.keys;
+      var values = snapshot.value;
+      for (var key in keys) {
+        Item item = new Item(
+          name: values[key]['name'],
+          description: values[key]['description'],
+          price: double.parse(values[key]['price'].toString()),
+          imageURL: values[key]['imageURL'],
+        );
+        l.add(item);
+      }
+      setState(() {
+        list = l;
+      });
+    });
+  }
+
+  //===========================================================================================
+  //===========================================================================================
+
+  final AuthService _auth = AuthService();
+  AnimationController _animationController;
+
+  final double maxSlide = 225.0;
+  var _canBeDragged;
 
   void _onDragStart(DragStartDetails details) {
     bool isDragOpenFromLeft =
@@ -70,6 +105,8 @@ class CustomDrawerState extends State<CustomDrawer>
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    getItemsFromDatabase(user.uid);
     var myDrawer = Scaffold(
       backgroundColor: Colors.blue[600],
       body: Container(
@@ -136,29 +173,25 @@ class CustomDrawerState extends State<CustomDrawer>
         ),
       ),
     );
-    var myChild = StreamProvider<List<Item>>.value(
-        value: DatabaseService().Items,
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: toggle,
-            ),
-            title: Text('Home Page'),
-            actions: <Widget>[
-              FlatButton.icon(
-                onPressed: () async {
-                  await _auth.SignOut();
-                },
-                icon: Icon(Icons.person),
-                label: Text('logout'),
-              ),
-            ],
+    var myChild = Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: toggle,
+        ),
+        title: Text('Home Page'),
+        actions: <Widget>[
+          FlatButton.icon(
+            onPressed: () async {
+              await _auth.SignOut();
+            },
+            icon: Icon(Icons.person),
+            label: Text('logout'),
           ),
-          body: Center(
-            child: ItemsList(),
-          ),
-        ));
+        ],
+      ),
+      body: list.length == 0 ? Container() : AllItems(list: list),
+    );
 
     return GestureDetector(
       onHorizontalDragStart: _onDragStart,
