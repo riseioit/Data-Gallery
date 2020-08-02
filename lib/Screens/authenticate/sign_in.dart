@@ -72,8 +72,8 @@ class _SignInState extends State<SignIn> {
                     TextFormField(
                       decoration: textInputDecoration.copyWith(
                           hintText: 'Password', fillColor: Colors.white),
-                      validator: (val) => val.length < 2
-                          ? 'Enter the password 6+ chars long'
+                      validator: (val) => val.length < 6
+                          ? 'Enter the password 6+ characters long'
                           : null,
                       onChanged: (pass) {
                         setState(() => password = pass);
