@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:practice_project/Screens/scan_qr.dart';
 import 'package:practice_project/Services/auth.dart';
 import 'package:practice_project/Shared/constants.dart';
 import 'package:practice_project/Shared/loading.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
-  SignIn({this.toggleView});
-
   @override
   _SignInState createState() => _SignInState();
 }
@@ -27,15 +25,6 @@ class _SignInState extends State<SignIn> {
             appBar: AppBar(
               title: Text('Sign In'),
               elevation: 0.0,
-              actions: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text('Register'),
-                  onPressed: () {
-                    widget.toggleView();
-                  },
-                ),
-              ],
             ),
             body: Container(
               decoration: BoxDecoration(
@@ -60,10 +49,12 @@ class _SignInState extends State<SignIn> {
                           hintText: 'Email', fillColor: Colors.white),
                       validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       onChanged: (mail) {
-                        setState(() {
-                          email = mail;
-                          error = '';
-                        });
+                        setState(
+                          () {
+                            email = mail;
+                            error = '';
+                          },
+                        );
                       },
                     ),
                     SizedBox(
@@ -93,11 +84,13 @@ class _SignInState extends State<SignIn> {
                           dynamic result = await _auth
                               .signInWithEmailAndPassword(email, password);
                           if (result == null) {
-                            setState(() {
-                              error =
-                                  'coluld not sign in with those creadentials';
-                              loading = false;
-                            });
+                            setState(
+                              () {
+                                error =
+                                    'coluld not sign in with those creadentials';
+                                loading = false;
+                              },
+                            );
                           }
                         }
                       },
@@ -106,6 +99,20 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
+            floatingActionButton: FloatingActionButton.extended(
+              isExtended: true,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScanQR(),
+                    ));
+              },
+              label: Text('Scan QR'),
+              icon: Icon(Icons.blur_linear),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
           );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practice_project/Screens/authenticate/authenticate.dart';
+import 'package:practice_project/Screens/authenticate/sign_in.dart';
 import 'package:practice_project/Screens/home.dart';
 import 'package:practice_project/models/user.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ class Wrapper extends StatelessWidget {
     print(user);
     // Return either home or authenticate widget
     if (user == null) {
-      return Authenticate();
+      return SignIn();
     } else {
       return CustomDrawer();
     }

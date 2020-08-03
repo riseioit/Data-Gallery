@@ -35,6 +35,7 @@ dependencies:
   firebase_core: any
   firebase_database: ^3.1.6
   firebase_storage: ^3.1.6
+  barcode_scan: ^3.0.1
 
 dev_dependencies:
   flutter_test:

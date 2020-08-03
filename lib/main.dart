@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:practice_project/Home/wrapper.dart';
 import 'package:practice_project/Services/auth.dart';
