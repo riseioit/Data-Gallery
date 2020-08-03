@@ -99,8 +99,8 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
+            resizeToAvoidBottomPadding: false,
             floatingActionButton: FloatingActionButton.extended(
-              isExtended: true,
               onPressed: () {
                 Navigator.push(
                     context,
