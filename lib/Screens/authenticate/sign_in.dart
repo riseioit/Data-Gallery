@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practice_project/Screens/scan_qr.dart';
+import 'package:practice_project/Screens/qrScan/scan_qr.dart';
 import 'package:practice_project/Services/auth.dart';
 import 'package:practice_project/Shared/constants.dart';
 import 'package:practice_project/Shared/loading.dart';
@@ -109,7 +109,6 @@ class _SignInState extends State<SignIn> {
                     ));
               },
               label: Text('Scan QR'),
-              icon: Icon(Icons.blur_linear),
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:practice_project/Home/item_tile.dart';
 import 'package:practice_project/Screens/addItem.dart';
+import 'package:practice_project/Screens/generate_qr.dart';
 import 'package:practice_project/Screens/item_home.dart';
 import 'package:practice_project/Services/auth.dart';
-import 'package:practice_project/Services/database.dart';
 import 'package:practice_project/models/item.dart';
 import 'package:practice_project/models/user.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -190,7 +187,24 @@ class CustomDrawerState extends State<CustomDrawer>
           ),
         ],
       ),
-      body: list.length == 0 ? Container() : AllItems(list: list),
+      body: list.length == 0
+          ? Container(
+              child: Center(
+                child: Text('You have not uploaded any data'),
+              ),
+            )
+          : AllItems(list: list),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('Generate QR'),
+        icon: Icon(Icons.blur_linear),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GenerateQR(id: user.uid),
+              ));
+        },
+      ),
     );
 
     return GestureDetector(
