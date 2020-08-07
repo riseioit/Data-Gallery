@@ -34,17 +34,22 @@ class CustomDrawerState extends State<CustomDrawer>
 
     await itemImages.once().then((DataSnapshot snapshot) {
       List<Item> l = [];
-      var keys = snapshot.value.keys;
-      var values = snapshot.value;
-      for (var key in keys) {
-        Item item = new Item(
-          name: values[key]['name'],
-          description: values[key]['description'],
-          price: double.parse(values[key]['price'].toString()),
-          imageURL: values[key]['imageURL'],
-        );
-        l.add(item);
+      if (snapshot.value != null) {
+        var keys = snapshot.value.keys;
+        var values = snapshot.value;
+
+        for (var key in keys) {
+          Item item = new Item(
+            key: key,
+            name: values[key]['name'],
+            description: values[key]['description'],
+            price: double.parse(values[key]['price'].toString()),
+            imageURL: values[key]['imageURL'],
+          );
+          l.add(item);
+        }
       }
+
       setState(() {
         list = l;
       });

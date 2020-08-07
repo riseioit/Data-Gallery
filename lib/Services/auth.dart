@@ -15,10 +15,10 @@ class AuthService {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      return [_userFromFirebaseUser(user), false];
     } catch (e) {
       print(e.toString());
-      return null;
+      return [e, true];
     }
   }
 
@@ -44,6 +44,11 @@ class AuthService {
     return _auth.onAuthStateChanged
         //.map((FirebaseUser user) => _userFromFirebaseUser(user));
         .map(_userFromFirebaseUser);
+  }
+
+  // Password Reset
+  Future sendPasswordResetEmail(String email) async {
+    return _auth.sendPasswordResetEmail(email: email);
   }
 
   // sign out

@@ -76,7 +76,9 @@ class _AddItemState extends State<AddItem> {
         "description": description,
         "price": price,
         "imageURL": imageURL,
+        "time": time,
       });
+
       setState(() {
         _loading = false;
         Navigator.pop(context);
@@ -301,6 +303,9 @@ class _AddItemState extends State<AddItem> {
                                 _loading = true;
                                 text = '';
                               });
+                              print(_nameController.text +
+                                  _descriptionController.text +
+                                  _priceController.text);
                               await sendMessge(
                                 _nameController.text,
                                 _descriptionController.text,
