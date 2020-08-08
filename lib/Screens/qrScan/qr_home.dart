@@ -1,6 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:practice_project/Screens/item_home.dart';
+import 'package:practice_project/Screens/customer/cus_item_home.dart';
 import 'package:practice_project/models/item.dart';
 
 class HomeQR extends StatefulWidget {
@@ -14,11 +14,18 @@ class _HomeQRState extends State<HomeQR> {
   List<Item> list = [];
 
   void getItemsFromDatabase(String id) async {
+
+
+
+
+
     final DatabaseReference itemImages =
         FirebaseDatabase.instance.reference().child(id);
 
-    await itemImages.once().then((DataSnapshot snapshot) {
-      List<Item> l = [];
+
+
+   await itemImages.once().then((DataSnapshot snapshot) {
+
       var keys = snapshot.value.keys;
       var values = snapshot.value;
       for (var key in keys) {
@@ -28,11 +35,9 @@ class _HomeQRState extends State<HomeQR> {
           price: double.parse(values[key]['price'].toString()),
           imageURL: values[key]['imageURL'],
         );
-        l.add(item);
+        list.add(item);
       }
-      setState(() {
-        list = l;
-      });
+
     });
   }
 
@@ -49,7 +54,7 @@ class _HomeQRState extends State<HomeQR> {
                 child: Text('You have not uploaded any data'),
               ),
             )
-          : AllItems(list: list),
+          : CustomerAllItems(list: list),
     );
   }
 }

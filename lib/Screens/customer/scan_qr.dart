@@ -1,7 +1,9 @@
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:practice_project/Screens/qrScan/qr_home.dart';
+import 'package:practice_project/Shared/loading.dart';
 
 class ScanQR extends StatefulWidget {
   @override
@@ -10,12 +12,71 @@ class ScanQR extends StatefulWidget {
 
 class _ScanQRState extends State<ScanQR> {
   ScanResult _barcode;
+  bool permission = false;
+  bool loading = false;
+
+
   bool _qrScanned = false;
+
+  final DatabaseReference itemKeys =
+  FirebaseDatabase.instance.reference();
+
+  void toggleLoading() {
+    setState(() {
+      loading = !loading;
+    });
+    if(loading) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Loading()));
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
+   Future<bool> check(String id) async {
+    toggleLoading();
+
+    bool flag = false;
+    await itemKeys.once().then((DataSnapshot snapshot) {
+      var keys = snapshot.value.keys;
+
+      if (keys.contains(id)) {
+
+        flag = true;
+        toggleLoading();
+
+
+      } else {
+        flag = false;
+        toggleLoading();
+      }
+
+    });
+    if(flag) {
+      setState(() {
+        permission = true;
+      });
+      
+    return Future.value(true);
+
+    } else {
+      Future.value(false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _qrScanned
+
+
+
+
+
+
+
+
+
+    return _qrScanned && permission
         ? HomeQR(
+
             id: _barcode.rawContent.toString(),
           )
         : Scaffold(
@@ -59,9 +120,11 @@ class _ScanQRState extends State<ScanQR> {
   Future scan() async {
     try {
       ScanResult barcode = await BarcodeScanner.scan();
+      await check(barcode.rawContent.toString());
       setState(() {
         this._barcode = barcode;
         this._qrScanned = true;
+
       });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {

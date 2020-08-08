@@ -93,7 +93,7 @@ class ItemTile extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        content: AutoSizeText('Are you sure to delete this item'),
+        content: AutoSizeText('Are you sure to delete this item ?'),
         actions: <Widget>[
           FlatButton(
             child: Text(

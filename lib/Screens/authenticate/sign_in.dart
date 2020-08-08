@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:practice_project/Screens/authenticate/forgot_password.dart';
-import 'package:practice_project/Screens/qrScan/scan_qr.dart';
+import 'package:practice_project/Screens/customer/scan_qr.dart';
 import 'package:practice_project/Services/auth.dart';
 import 'package:practice_project/Shared/constants.dart';
 import 'package:practice_project/Shared/loading.dart';
